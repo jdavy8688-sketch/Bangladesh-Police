@@ -1775,9 +1775,28 @@ export class MapController {
       maxScale = levelMatch.maxScale;
     }
 
+    // Applied charts should remain visible at the current view scale.
+    // Scale-dependent chart layers in the web map often hide at the wrong zoom,
+    // which leaves the legend populated while the map stays empty.
+    minScale = 0;
+    maxScale = 0;
+
+    // Prefer real Graphic instances — plain objects can fail to draw pieChart symbols.
+    let sourceGraphics: unknown[] = graphics;
+    try {
+      const GraphicMod = await import("@arcgis/core/Graphic.js");
+      const Graphic = (GraphicMod as { default: new (p: unknown) => unknown }).default;
+      sourceGraphics = graphics.map((g) => {
+        const item = g as { geometry?: unknown; attributes?: Record<string, unknown> };
+        return new Graphic({ geometry: item.geometry, attributes: item.attributes ?? {} });
+      });
+    } catch {
+      /* plain {geometry, attributes} is acceptable in most builds */
+    }
+
     const renderer = this.modules.jsonUtils.fromJSON(rendererJson);
     const client = new FeatureLayer({
-      source: graphics,
+      source: sourceGraphics,
       objectIdField: oidField,
       fields,
       geometryType: "point",
@@ -1787,14 +1806,17 @@ export class MapController {
       listMode: "hide",
       popupEnabled: true,
       outFields: ["*"],
-      opacity: layer.opacity ?? 1,
-      minScale,
-      maxScale,
-    }) as EsriLayer & { minScale?: number; maxScale?: number };
+      opacity: 1,
+      minScale: 0,
+      maxScale: 0,
+      visible: true,
+    }) as EsriLayer & { minScale?: number; maxScale?: number; visible: boolean };
 
     try {
-      client.minScale = minScale;
-      client.maxScale = maxScale;
+      client.minScale = 0;
+      client.maxScale = 0;
+      client.visible = true;
+      client.opacity = 1;
     } catch {
       /* ignore */
     }
@@ -1802,7 +1824,28 @@ export class MapController {
     const originalVisible = layer.visible;
     layer.visible = false;
 
-    (this.webmap.layers as { add?: (l: unknown) => void }).add?.(client);
+    // Ensure parent group layers stay visible so nothing above hides drawing.
+    try {
+      const parent = (layer as EsriLayer & { parent?: { visible?: boolean; type?: string } }).parent;
+      if (parent && parent.type === "group") parent.visible = true;
+    } catch {
+      /* parent optional */
+    }
+
+    const layersCol = this.webmap.layers as {
+      add?: (l: unknown, idx?: number) => void;
+      reorder?: (l: unknown, idx: number) => void;
+      length?: number;
+    };
+    layersCol.add?.(client);
+    // Keep charts on top of boundary polygons
+    try {
+      const len = Number(layersCol.length ?? 0);
+      if (len > 0 && layersCol.reorder) layersCol.reorder(client, len - 1);
+    } catch {
+      /* reorder optional */
+    }
+
     this.joinedChartLayers.set(layer.id, {
       layer: client,
       originalId: layer.id,
@@ -1811,6 +1854,13 @@ export class MapController {
 
     if (!this.originalRenderers.has(layer.id)) {
       this.originalRenderers.set(layer.id, layer.renderer ?? null);
+    }
+
+    // Force a redraw after the client layer is in the map
+    try {
+      (client as { refresh?: () => void }).refresh?.();
+    } catch {
+      /* optional */
     }
   }
 

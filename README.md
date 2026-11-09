@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Insight Hub Dashboard — Bangladesh Police
 
 Map-centric web application for Bangladesh Police crime and administrative intelligence.  
@@ -244,3 +245,7 @@ src/
 ## License
 
 Private / project-specific. Contact the repository owner for usage terms.
+=======
+# Bangladesh-Police
+Insight Hub Dashboard — Bangladesh Police. Map-centric web application for crime and administrative intelligence (ArcGIS + React).
+>>>>>>> a65a85e54251ada1216ea5191d63ee17ed429abd
