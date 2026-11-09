@@ -1,0 +1,331 @@
+.data-update-maintabs,
+.data-update-subtabs {
+  display: grid;
+  width: 100%;
+  margin: 0 0 4px;
+  flex-shrink: 0;
+  gap: 0;
+  padding: 3px;
+  border: 1px solid rgb(0 0 0 / 0.12);
+  border-radius: 6px;
+  background: #f0f0f0;
+  box-sizing: border-box;
+}
+
+.data-update-maintabs {
+  grid-template-columns: 1fr 1fr;
+}
+
+.data-update-subtabs {
+  grid-template-columns: 1fr 1fr 1fr;
+  padding: 2px;
+  margin: 0 0 2px;
+  border-radius: 5px;
+}
+
+.data-update-maintabs .seg-btn,
+.data-update-subtabs .seg-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 0;
+  width: 100%;
+  height: 34px;
+  margin: 0;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: #4a4a4a;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.12s ease, color 0.12s ease, box-shadow 0.12s ease;
+}
+
+.data-update-subtabs .seg-btn {
+  height: 28px;
+  gap: 4px;
+  padding: 0 8px;
+  font-size: 11px;
+  border-radius: 3px;
+}
+
+.data-update-maintabs .seg-btn:hover:not(.seg-active),
+.data-update-subtabs .seg-btn:hover:not(.seg-active) {
+  background: rgb(255 255 255 / 0.55);
+  color: #151515;
+}
+
+.data-update-maintabs .seg-btn.seg-active,
+.data-update-subtabs .seg-btn.seg-active {
+  background: #ffffff;
+  color: #0079c1;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.12);
+}
+
+.data-update-maintabs .seg-btn.seg-active calcite-icon,
+.data-update-subtabs .seg-btn.seg-active calcite-icon {
+  color: #0079c1;
+}
+
+.data-update-maintabs .seg-btn calcite-icon,
+.data-update-subtabs .seg-btn calcite-icon {
+  flex-shrink: 0;
+  color: #6a6a6a;
+  --calcite-icon-size: 14px;
+}
+
+.data-update-subtabs .seg-btn calcite-icon {
+  --calcite-icon-size: 12px;
+}
+
+.data-update-maintabs .seg-btn:focus-visible,
+.data-update-subtabs .seg-btn:focus-visible {
+  outline: 2px solid color-mix(in oklab, #0079c1 45%, transparent);
+  outline-offset: 1px;
+}
+
+.data-update-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px 14px 16px;
+  border: 1px solid rgb(0 0 0 / 0.1);
+  border-radius: 6px;
+  background: #fafafa;
+}
+
+.data-update-card--flat {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  gap: 14px;
+}
+
+.data-update-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 12px;
+}
+
+@media (max-width: 480px) {
+  .data-update-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .data-update-subtabs {
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
+
+  .data-update-subtabs .seg-btn {
+    height: 30px;
+    justify-content: flex-start;
+    padding: 0 10px;
+  }
+}
+
+.data-update-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.data-update-field-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #323232;
+  letter-spacing: 0.01em;
+}
+
+.data-update-input {
+  height: 32px;
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid rgb(0 0 0 / 0.18);
+  border-radius: 4px;
+  padding: 0 10px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 400;
+  color: #151515;
+  background: #ffffff;
+}
+
+.data-update-input:focus {
+  outline: 2px solid color-mix(in oklab, #0079c1 35%, transparent);
+  outline-offset: 1px;
+  border-color: #0079c1;
+}
+
+.data-update-input--sm {
+  height: 28px;
+  font-size: 12px;
+  max-width: 140px;
+  padding: 0 8px;
+}
+
+.data-update-form-actions {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 2px;
+}
+
+.data-update-form-actions .data-update-run-btn {
+  flex: 0 0 auto;
+  min-width: 160px;
+}
+
+.data-update-field-list,
+.data-update-group-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.data-update-field-row,
+.data-update-group-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 36px;
+  padding: 6px 10px;
+  border: 1px solid rgb(0 0 0 / 0.1);
+  border-radius: 4px;
+  background: #ffffff;
+}
+
+.data-update-field-row-label,
+.data-update-group-item-label {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: #151515;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.data-update-group-item-main {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.data-update-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  flex: 0 0 auto;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: transparent;
+  color: #6a6a6a;
+  cursor: pointer;
+  padding: 0;
+}
+
+.data-update-icon-btn:hover {
+  border-color: rgb(0 0 0 / 0.15);
+  background: #f3f3f3;
+  color: #c7461a;
+}
+
+.data-update-group-block {
+  margin: 0 0 4px;
+  border: 1px solid rgb(0 0 0 / 0.1);
+  border-radius: 4px;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+.data-update-group-block:last-child {
+  margin-bottom: 0;
+}
+
+.data-update-group-count {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.data-update-group-item-main > .data-update-group-item-label {
+  margin-right: 8px;
+}
+
+.data-update-group-item-main > .method-tag {
+  margin-left: 0;
+}
+
+details.data-update-group-block > summary.data-update-group-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  width: 100%;
+  margin: 0;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 0;
+  background: #ffffff;
+  cursor: pointer;
+  list-style: none;
+  font: inherit;
+  color: inherit;
+}
+
+details.data-update-group-block > summary.data-update-group-toggle::-webkit-details-marker {
+  display: none;
+}
+
+details.data-update-group-block > summary.data-update-group-toggle::before {
+  content: "";
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 5px 0 5px 7px;
+  border-color: transparent transparent transparent #6a6a6a;
+  flex: 0 0 auto;
+  transition: transform 0.12s ease;
+}
+
+details.data-update-group-block[open] > summary.data-update-group-toggle::before {
+  transform: rotate(90deg);
+}
+
+details.data-update-group-block > summary.data-update-group-toggle:hover {
+  background: #f3f3f3;
+}
+
+details.data-update-group-block > summary.data-update-group-toggle:focus-visible {
+  outline: 2px solid color-mix(in oklab, #0079c1 45%, transparent);
+  outline-offset: 1px;
+}
+
+details.data-update-group-block > summary.data-update-group-toggle h2 {
+  margin: 0;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+details.data-update-group-block > summary.data-update-group-toggle .method-tag {
+  margin-left: auto;
+}
+
+details.data-update-group-block > .data-update-field-list,
+details.data-update-group-block > .empty-note {
+  margin: 0;
+  padding: 4px 8px 8px;
+  border-top: 1px solid rgb(0 0 0 / 0.08);
+}

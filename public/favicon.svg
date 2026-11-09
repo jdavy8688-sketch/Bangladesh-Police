@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Bangladesh Police">
+  <defs>
+    <linearGradient id="badge" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e4d8c"/>
+      <stop offset="100%" stop-color="#0b2545"/>
+    </linearGradient>
+    <linearGradient id="star" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#f6e05e"/>
+      <stop offset="100%" stop-color="#d69e2e"/>
+    </linearGradient>
+  </defs>
+  <!-- Shield outline -->
+  <path
+    d="M32 6 C20 10 12 12 12 12 L12 30 C12 44 22 54 32 58 C42 54 52 44 52 30 L52 12 C52 12 44 10 32 6 Z"
+    fill="url(#badge)"
+  />
+  <path
+    d="M32 10 C22 13.5 16 15 16 15 L16 30 C16 42 24 50.5 32 54 C40 50.5 48 42 48 30 L48 15 C48 15 42 13.5 32 10 Z"
+    fill="none"
+    stroke="#90cdf4"
+    stroke-width="1.5"
+    opacity="0.7"
+  />
+  <!-- 5-point star (cop badge) -->
+  <path
+    d="M32 18 L35.1 26.1 L43.8 26.4 L36.9 31.9 L39.5 40.2 L32 35.2 L24.5 40.2 L27.1 31.9 L20.2 26.4 L28.9 26.1 Z"
+    fill="url(#star)"
+  />
+  <!-- Small accent bar under star -->
+  <rect x="24" y="44" width="16" height="3" rx="1.5" fill="#bee3f8" opacity="0.9"/>
+</svg>

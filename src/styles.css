@@ -1,0 +1,105 @@
+@import "./styles/styles-part-0.css";
+@import "./styles/styles-part-1.css";
+@import "./styles/styles-part-2.css";
+
+/* Left panel: footer pinned; options list fills remaining space and scrolls */
+.left-panel .left-panel-footer {
+  flex-shrink: 0;
+  padding: 12px 16px 14px;
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: var(--color-surface);
+}
+
+.left-panel .panel-scroll {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.left-panel .panel-scroll > section {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.left-panel .check-list {
+  flex: 1 1 auto;
+  height: auto;
+  min-height: 0;
+  max-height: none;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Manage Data — Fields in group: fixed box height, scroll inside */
+.data-update-fields-check {
+  height: auto;
+  max-height: 200px;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  flex-shrink: 0;
+}
+
+/* Selected indicator chips (Smart Symbology) — wrap, no overlap with checklist */
+.selected-fields-box {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin: 10px 0 4px;
+  padding: 8px;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  background: #f8fafc;
+  max-height: 96px;
+  overflow-y: auto;
+  flex-shrink: 0;
+}
+
+.field-keyword {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  max-width: 100%;
+  margin: 0;
+  padding: 4px 8px;
+  border: 1px solid color-mix(in oklab, var(--color-accent) 28%, transparent);
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--color-accent) 10%, #ffffff);
+  color: var(--color-accent);
+  font: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.2;
+  cursor: pointer;
+}
+
+.field-keyword span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.field-keyword calcite-icon {
+  flex-shrink: 0;
+  --calcite-icon-size: 12px;
+}
+
+.field-keyword:hover {
+  background: color-mix(in oklab, var(--color-accent) 18%, #ffffff);
+  border-color: var(--color-accent);
+}
+
+/* Keep checklist below selected chips with clear separation */
+.left-panel .check-list {
+  margin-top: 8px;
+  flex: 1 1 auto;
+  min-height: 120px;
+}

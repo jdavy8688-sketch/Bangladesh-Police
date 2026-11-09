@@ -1,0 +1,211 @@
+/* Header landscape location filters – single-click menus */
+
+.app-header-with-filters {
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+}
+
+.header-filters-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  min-width: 0;
+}
+
+.header-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.header-filter-dd {
+  position: relative;
+}
+
+.header-filter-dd-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 10px;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  background: #ffffff;
+  color: var(--color-fg);
+  font: inherit;
+  font-size: 12px;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.header-filter-dd-btn:hover:not(:disabled) {
+  border-color: var(--color-accent);
+}
+
+.header-filter-dd-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  background: #f5f5f5;
+}
+
+.header-filter-dd.is-open .header-filter-dd-btn {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 1px color-mix(in oklab, var(--color-accent) 25%, transparent);
+}
+
+.header-filter-dd.is-active .header-filter-dd-btn {
+  border-color: color-mix(in oklab, var(--color-accent) 55%, transparent);
+}
+
+.header-filter-dd-label {
+  font-weight: 600;
+  color: var(--color-fg);
+}
+
+/* Blue selection indicator — no value text on the chip */
+.header-filter-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-accent, #0079c1);
+  flex-shrink: 0;
+  box-shadow: 0 0 0 2px color-mix(in oklab, var(--color-accent, #0079c1) 22%, #ffffff);
+}
+
+.header-filter-dd-btn calcite-icon {
+  color: var(--color-muted);
+  flex-shrink: 0;
+}
+
+.header-filter-dd-menu {
+  position: absolute;
+  z-index: 40;
+  top: calc(100% + 4px);
+  left: 0;
+  min-width: max(100%, 180px);
+  max-width: 280px;
+  max-height: min(320px, 50vh);
+  margin: 0;
+  padding: 4px;
+  list-style: none;
+  overflow: auto;
+  background: #ffffff;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 6px 20px rgb(0 0 0 / 0.14);
+}
+
+.header-filter-dd-option {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  padding: 7px 10px;
+  font: inherit;
+  font-size: 12px;
+  color: var(--color-fg);
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.header-filter-dd-option:hover {
+  background: #f5f5f5;
+}
+
+.header-filter-dd-option.is-active {
+  background: color-mix(in oklab, var(--color-accent) 12%, #ffffff);
+  color: var(--color-accent);
+  font-weight: 600;
+}
+
+/* Match Clear selection (analytics-clear-sel) */
+.header-filter-clear {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 10px;
+  border: 1px solid var(--color-border-strong, rgb(0 0 0 / 0.18));
+  border-radius: var(--radius-sm, 4px);
+  background: #ffffff;
+  color: var(--color-fg, #151515);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.header-filter-clear:hover {
+  border-color: var(--color-accent, #0079c1);
+  color: var(--color-accent, #0079c1);
+}
+
+.header-filter-clear calcite-icon {
+  flex-shrink: 0;
+  color: inherit;
+}
+
+@media (max-width: 900px) {
+  .header-filters-wrap {
+    display: none;
+  }
+}
+
+/* Map selection summary (analytics panel) */
+.selection-summary {
+  margin: 0 0 12px;
+  padding: 10px 12px;
+  border: 1px solid var(--color-border, rgb(0 0 0 / 0.1));
+  border-radius: var(--radius-sm, 4px);
+  background: #f8fafc;
+}
+
+.selection-summary-title {
+  margin: 0 0 8px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-muted, #6a6a6a);
+}
+
+.selection-summary-row {
+  display: grid;
+  grid-template-columns: minmax(120px, 140px) 1fr;
+  gap: 8px 12px;
+  align-items: baseline;
+  margin: 0 0 4px;
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.selection-summary-label {
+  color: var(--color-muted, #6a6a6a);
+  font-weight: 500;
+}
+
+.selection-summary-value {
+  color: var(--color-fg, #151515);
+  font-weight: 600;
+  min-width: 0;
+  word-break: break-word;
+}
+
+.selection-summary-value.muted {
+  font-weight: 500;
+  color: var(--color-fg, #151515);
+}
+
+.selection-summary-ancestors {
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px solid rgb(0 0 0 / 0.08);
+}

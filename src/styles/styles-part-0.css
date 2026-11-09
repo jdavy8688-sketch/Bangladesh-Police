@@ -1,0 +1,280 @@
+@import "tailwindcss";
+@import "@esri/calcite-components/dist/calcite/calcite.css";
+@import "../map-panel-buttons.css";
+@import "../header-filters.css";
+@import "./layout-v2.css";
+@import "./legend-kpi.css";
+@import "./auth-data-update.css";
+@import "./data-update-sticky.css";
+
+@theme {
+  --font-sans: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --font-display: "Sora", "IBM Plex Sans", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  --color-bg: #f3f3f3;
+  --color-surface: #ffffff;
+  --color-elevated: #ffffff;
+  --color-fg: #151515;
+  --color-muted: #6a6a6a;
+  --color-subtle: #8a8a8a;
+  --color-accent: #0079c1;
+  --color-accent-fg: #ffffff;
+  --color-danger: #c7461a;
+  --color-warn: #d19a00;
+  --color-border: rgb(0 0 0 / 0.1);
+  --color-border-strong: rgb(0 0 0 / 0.18);
+  --color-header: #ffffff;
+
+  --chart-1: #0079c1;
+  --chart-2: #35ac46;
+  --chart-3: #ed953c;
+  --chart-4: #c7461a;
+  --chart-5: #8a8a8a;
+  --chart-6: #5a9bd5;
+
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+
+  --header-h: 56px;
+  --panel-left: 340px;
+  --panel-right: 320px;
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  html,
+  body,
+  #app {
+    min-height: 100%;
+    background: var(--color-bg);
+    color: var(--color-fg);
+  }
+
+  body {
+    margin: 0;
+    font-family: var(--font-sans);
+    line-height: 1.45;
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+    font-family: var(--font-display);
+  }
+}
+
+.calcite-mode-light {
+  --calcite-color-brand: var(--color-accent);
+  --calcite-color-brand-hover: #005e95;
+  --calcite-color-brand-press: #004874;
+  --calcite-color-background: var(--color-bg);
+  --calcite-color-foreground-1: var(--color-surface);
+  --calcite-color-foreground-2: #f8f8f8;
+  --calcite-color-foreground-3: #efefef;
+  --calcite-color-text-1: var(--color-fg);
+  --calcite-color-text-2: var(--color-muted);
+  --calcite-color-text-3: var(--color-subtle);
+  --calcite-color-border-1: var(--color-border-strong);
+  --calcite-color-border-2: var(--color-border);
+  --calcite-color-border-3: var(--color-border);
+}
+
+.workbench {
+  height: 100dvh;
+  display: grid;
+  grid-template-rows: var(--header-h) minmax(0, 1fr);
+  background: var(--color-bg);
+  color: var(--color-fg);
+  overflow: hidden;
+}
+
+.app-header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 0 16px;
+  background: #ffffff;
+  border-bottom: 1px solid rgb(0 0 0 / 0.1);
+  box-shadow:
+    0 1px 3px rgb(0 0 0 / 0.06),
+    0 4px 12px rgb(0 0 0 / 0.04);
+  z-index: 20;
+  position: relative;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.brand-logo {
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  flex-shrink: 0;
+  object-fit: contain;
+  background: color-mix(in oklab, var(--color-accent) 12%, #e8f4fc);
+  padding: 4px;
+  box-sizing: border-box;
+}
+
+.brand-mark {
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  display: grid;
+  place-items: center;
+  background: color-mix(in oklab, var(--color-accent) 18%, #dceef8);
+  color: var(--color-accent);
+  flex-shrink: 0;
+  border: 1px solid color-mix(in oklab, var(--color-accent) 22%, transparent);
+}
+
+.brand-copy {
+  min-width: 0;
+}
+
+.brand-kicker {
+  margin: 0;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  font-weight: 600;
+}
+
+.brand-copy h1 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  color: var(--color-fg);
+}
+
+.brand-sub {
+  margin: 0;
+  font-size: 11px;
+  color: var(--color-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.header-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.workspace {
+  display: grid;
+  grid-template-columns: var(--panel-left) minmax(0, 1fr) var(--panel-right);
+  gap: 2px;
+  min-height: 0;
+  padding: 2px;
+  background: var(--color-bg);
+}
+
+.workbench[data-left="closed"] .workspace {
+  grid-template-columns: minmax(0, 1fr) var(--panel-right);
+}
+
+.workbench[data-right="closed"] .workspace {
+  grid-template-columns: var(--panel-left) minmax(0, 1fr);
+}
+
+.workbench[data-left="closed"][data-right="closed"] .workspace {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.side-panel {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.05);
+}
+
+.panel-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-shrink: 0;
+  min-height: 44px;
+  padding: 8px 12px 8px 16px;
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-surface);
+}
+
+.panel-header-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  color: var(--color-accent);
+}
+
+.panel-header-title h2 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--color-fg);
+  letter-spacing: -0.01em;
+}
+
+.panel-header-title calcite-icon {
+  flex-shrink: 0;
+  color: var(--color-accent);
+}
+
+.panel-close-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-muted);
+  cursor: pointer;
+}

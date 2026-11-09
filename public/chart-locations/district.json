@@ -1,0 +1,642 @@
+[
+  {
+    "x": 92.363825,
+    "y": 21.807117,
+    "wkid": 4326,
+    "adm1_en": "Chittagong",
+    "adm2_en": "Bandarban",
+    "adm1_pcode": "BD20",
+    "adm2_pcode": "BD2003",
+    "objectid": 2
+  },
+  {
+    "x": 90.12048,
+    "y": 22.141127,
+    "wkid": 4326,
+    "adm1_en": "Barisal",
+    "adm2_en": "Barguna",
+    "adm1_pcode": "BD10",
+    "adm2_pcode": "BD1004",
+    "objectid": 3
+  },
+  {
+    "x": 90.341672,
+    "y": 22.811441,
+    "wkid": 4326,
+    "adm1_en": "Barisal",
+    "adm2_en": "Barisal",
+    "adm1_pcode": "BD10",
+    "adm2_pcode": "BD1006",
+    "objectid": 4
+  },
+  {
+    "x": 90.733341,
+    "y": 22.335697,
+    "wkid": 4326,
+    "adm1_en": "Barisal",
+    "adm2_en": "Bhola",
+    "adm1_pcode": "BD10",
+    "adm2_pcode": "BD1009",
+    "objectid": 5
+  },
+  {
+    "x": 89.378792,
+    "y": 24.824458,
+    "wkid": 4326,
+    "adm1_en": "Rajshahi",
+    "adm2_en": "Bogra",
+    "adm1_pcode": "BD50",
+    "adm2_pcode": "BD5010",
+    "objectid": 6
+  },
+  {
+    "x": 91.083484,
+    "y": 23.952996,
+    "wkid": 4326,
+    "adm1_en": "Chittagong",
+    "adm2_en": "Brahamanbaria",
+    "adm1_pcode": "BD20",
+    "adm2_pcode": "BD2012",
+    "objectid": 7
+  },
+  {
+    "x": 90.771014,
+    "y": 23.273564,
+    "wkid": 4326,
+    "adm1_en": "Chittagong",
+    "adm2_en": "Chandpur",
+    "adm1_pcode": "BD20",
+    "adm2_pcode": "BD2013",
+    "objectid": 8
+  },
+  {
+    "x": 91.834369,
+    "y": 22.443264,
+    "wkid": 4326,
+    "adm1_en": "Chittagong",
+    "adm2_en": "Chittagong",
+    "adm1_pcode": "BD20",
+    "adm2_pcode": "BD2015",
+    "objectid": 9
+  },
+  {
+    "x": 88.847975,
+    "y": 23.608312,
+    "wkid": 4326,
+    "adm1_en": "Khulna",
+    "adm2_en": "Chuadanga",
+    "adm1_pcode": "BD40",
+    "adm2_pcode": "BD4018",
+    "objectid": 10
+  },
+  {
+    "x": 91.033955,
+    "y": 23.436873,
+    "wkid": 4326,
+    "adm1_en": "Chittagong",
+    "adm2_en": "Comilla",
+    "adm1_pcode": "BD20",
+    "adm2_pcode": "BD2019",
+    "objectid": 11
+  },
+  {
+    "x": 92.063925,
+    "y": 21.483798,
+    "wkid": 4326,
+    "adm1_en": "Chittagong",
+    "adm2_en": "Cox's Bazar",
+    "adm1_pcode": "BD20",
+    "adm2_pcode": "BD2022",
+    "objectid": 12
+  },
+  {
+    "x": 90.25077,
+    "y": 23.786968,
+    "wkid": 4326,
+    "adm1_en": "Dhaka",
+    "adm2_en": "Dhaka",
+    "adm1_pcode": "BD30",
+    "adm2_pcode": "BD3026",
+    "objectid": 13
+  },
+  {
+    "x": 88.786887,
+    "y": 25.629879,
+    "wkid": 4326,
+    "adm1_en": "Rangpur",
+    "adm2_en": "Dinajpur",
+    "adm1_pcode": "BD55",
+    "adm2_pcode": "BD5527",
+    "objectid": 14
+  },
+  {
+    "x": 91.412431,
+    "y": 22.999432,
+    "wkid": 4326,
+    "adm1_en": "Chittagong",
+    "adm2_en": "Feni",
+    "adm1_pcode": "BD20",
+    "adm2_pcode": "BD2030",
+    "objectid": 16
+  },
+  {
+    "x": 89.505845,
+    "y": 25.298722,
+    "wkid": 4326,
+    "adm1_en": "Rangpur",
+    "adm2_en": "Gaibandha",
+    "adm1_pcode": "BD55",
+    "adm2_pcode": "BD5532",
+    "objectid": 17
+  },
+  {
+    "x": 90.444998,
+    "y": 24.098424,
+    "wkid": 4326,
+    "adm1_en": "Dhaka",
+    "adm2_en": "Gazipur",
+    "adm1_pcode": "BD30",
+    "adm2_pcode": "BD3033",
+    "objectid": 18
+  },
+  {
+    "x": 89.899512,
+    "y": 23.105533,
+    "wkid": 4326,
+    "adm1_en": "Dhaka",
+    "adm2_en": "Gopalganj",
+    "adm1_pcode": "BD30",
+    "adm2_pcode": "BD3035",
+    "objectid": 19
+  },
+  {
+    "x": 91.430336,
+    "y": 24.368082,
+    "wkid": 4326,
+    "adm1_en": "Sylhet",
+    "adm2_en": "Habiganj",
+    "adm1_pcode": "BD60",
+    "adm2_pcode": "BD6036",
+    "objectid": 20
+  },
+  {
+    "x": 89.846266,
+    "y": 24.973108,
+    "wkid": 4326,
+    "adm1_en": "Mymensingh",
+    "adm2_en": "Jamalpur",
+    "adm1_pcode": "BD45",
+    "adm2_pcode": "BD4539",
+    "objectid": 21
+  },
+  {
+    "x": 89.174676,
+    "y": 23.089776,
+    "wkid": 4326,
+    "adm1_en": "Khulna",
+    "adm2_en": "Jessore",
+    "adm1_pcode": "BD40",
+    "adm2_pcode": "BD4041",
+    "objectid": 22
+  },
+  {
+    "x": 90.184013,
+    "y": 22.572787,
+    "wkid": 4326,
+    "adm1_en": "Barisal",
+    "adm2_en": "Jhalokati",
+    "adm1_pcode": "BD10",
+    "adm2_pcode": "BD1042",
+    "objectid": 23
+  },
+  {
+    "x": 89.087488,
+    "y": 23.489216,
+    "wkid": 4326,
+    "adm1_en": "Khulna",
+    "adm2_en": "Jhenaidah",
+    "adm1_pcode": "BD40",
+    "adm2_pcode": "BD4044",
+    "objectid": 24
+  },
+  {
+    "x": 89.082916,
+    "y": 25.092769,
+    "wkid": 4326,
+    "adm1_en": "Rajshahi",
+    "adm2_en": "Joypurhat",
+    "adm1_pcode": "BD50",
+    "adm2_pcode": "BD5038",
+    "objectid": 25
+  },
+  {
+    "x": 91.952144,
+    "y": 23.164334,
+    "wkid": 4326,
+    "adm1_en": "Chittagong",
+    "adm2_en": "Khagrachhari",
+    "adm1_pcode": "BD20",
+    "adm2_pcode": "BD2046",
+    "objectid": 26
+  },
+  {
+    "x": 89.447848,
+    "y": 22.470878,
+    "wkid": 4326,
+    "adm1_en": "Khulna",
+    "adm2_en": "Khulna",
+    "adm1_pcode": "BD40",
+    "adm2_pcode": "BD4047",
+    "objectid": 27
+  },
+  {
+    "x": 90.942405,
+    "y": 24.376186,
+    "wkid": 4326,
+    "adm1_en": "Dhaka",
+    "adm2_en": "Kishoreganj",
+    "adm1_pcode": "BD30",
+    "adm2_pcode": "BD3048",
+    "objectid": 28
+  },
+  {
+    "x": 89.021932,
+    "y": 23.922967,
+    "wkid": 4326,
+    "adm1_en": "Khulna",
+    "adm2_en": "Kushtia",
+    "adm1_pcode": "BD40",
+    "adm2_pcode": "BD4050",
+    "objectid": 30
+  },
+  {
+    "x": 90.855829,
+    "y": 22.891769,
+    "wkid": 4326,
+    "adm1_en": "Chittagong",
+    "adm2_en": "Lakshmipur",
+    "adm1_pcode": "BD20",
+    "adm2_pcode": "BD2051",
+    "objectid": 31
+  },
+  {
+    "x": 89.23573,
+    "y": 26.063112,
+    "wkid": 4326,
+    "adm1_en": "Rangpur",
+    "adm2_en": "Lalmonirhat",
+    "adm1_pcode": "BD55",
+    "adm2_pcode": "BD5552",
+    "objectid": 32
+  },
+  {
+    "x": 90.165097,
+    "y": 23.218042,
+    "wkid": 4326,
+    "adm1_en": "Dhaka",
+    "adm2_en": "Madaripur",
+    "adm1_pcode": "BD30",
+    "adm2_pcode": "BD3054",
+    "objectid": 33
+  },
+  {
+    "x": 89.433712,
+    "y": 23.44318,
+    "wkid": 4326,
+    "adm1_en": "Khulna",
+    "adm2_en": "Magura",
+    "adm1_pcode": "BD40",
+    "adm2_pcode": "BD4055",
+    "objectid": 34
+  },
+  {
+    "x": 89.949596,
+    "y": 23.843926,
+    "wkid": 4326,
+    "adm1_en": "Dhaka",
+    "adm2_en": "Manikganj",
+    "adm1_pcode": "BD30",
+    "adm2_pcode": "BD3056",
+    "objectid": 35
+  },
+  {
+    "x": 91.915376,
+    "y": 24.480421,
+    "wkid": 4326,
+    "adm1_en": "Sylhet",
+    "adm2_en": "Maulvibazar",
+    "adm1_pcode": "BD60",
+    "adm2_pcode": "BD6058",
+    "objectid": 36
+  },
+  {
+    "x": 88.707142,
+    "y": 23.794102,
+    "wkid": 4326,
+    "adm1_en": "Khulna",
+    "adm2_en": "Meherpur",
+    "adm1_pcode": "BD40",
+    "adm2_pcode": "BD4057",
+    "objectid": 37
+  },
+  {
+    "x": 90.417285,
+    "y": 23.525748,
+    "wkid": 4326,
+    "adm1_en": "Dhaka",
+    "adm2_en": "Munshiganj",
+    "adm1_pcode": "BD30",
+    "adm2_pcode": "BD3059",
+    "objectid": 38
+  },
+  {
+    "x": 90.428609,
+    "y": 24.699094,
+    "wkid": 4326,
+    "adm1_en": "Mymensingh",
+    "adm2_en": "Mymensingh",
+    "adm1_pcode": "BD45",
+    "adm2_pcode": "BD4561",
+    "objectid": 39
+  },
+  {
+    "x": 88.751572,
+    "y": 24.899642,
+    "wkid": 4326,
+    "adm1_en": "Rajshahi",
+    "adm2_en": "Naogaon",
+    "adm1_pcode": "BD50",
+    "adm2_pcode": "BD5064",
+    "objectid": 40
+  },
+  {
+    "x": 89.580176,
+    "y": 23.1301,
+    "wkid": 4326,
+    "adm1_en": "Khulna",
+    "adm2_en": "Narail",
+    "adm1_pcode": "BD40",
+    "adm2_pcode": "BD4065",
+    "objectid": 41
+  },
+  {
+    "x": 90.578007,
+    "y": 23.723218,
+    "wkid": 4326,
+    "adm1_en": "Dhaka",
+    "adm2_en": "Narayanganj",
+    "adm1_pcode": "BD30",
+    "adm2_pcode": "BD3067",
+    "objectid": 42
+  },
+  {
+    "x": 89.086859,
+    "y": 24.380367,
+    "wkid": 4326,
+    "adm1_en": "Rajshahi",
+    "adm2_en": "Natore",
+    "adm1_pcode": "BD50",
+    "adm2_pcode": "BD5069",
+    "objectid": 44
+  },
+  {
+    "x": 88.264113,
+    "y": 24.715699,
+    "wkid": 4326,
+    "adm1_en": "Rajshahi",
+    "adm2_en": "Nawabganj",
+    "adm1_pcode": "BD50",
+    "adm2_pcode": "BD5070",
+    "objectid": 45
+  },
+  {
+    "x": 90.84463,
+    "y": 24.87076,
+    "wkid": 4326,
+    "adm1_en": "Mymensingh",
+    "adm2_en": "Netrakona",
+    "adm1_pcode": "BD45",
+    "adm2_pcode": "BD4572",
+    "objectid": 46
+  },
+  {
+    "x": 88.929523,
+    "y": 26.024655,
+    "wkid": 4326,
+    "adm1_en": "Rangpur",
+    "adm2_en": "Nilphamari",
+    "adm1_pcode": "BD55",
+    "adm2_pcode": "BD5573",
+    "objectid": 47
+  },
+  {
+    "x": 91.124657,
+    "y": 22.693697,
+    "wkid": 4326,
+    "adm1_en": "Chittagong",
+    "adm2_en": "Noakhali",
+    "adm1_pcode": "BD20",
+    "adm2_pcode": "BD2075",
+    "objectid": 48
+  },
+  {
+    "x": 89.385332,
+    "y": 24.053172,
+    "wkid": 4326,
+    "adm1_en": "Rajshahi",
+    "adm2_en": "Pabna",
+    "adm1_pcode": "BD50",
+    "adm2_pcode": "BD5076",
+    "objectid": 49
+  },
+  {
+    "x": 88.575459,
+    "y": 26.285129,
+    "wkid": 4326,
+    "adm1_en": "Rangpur",
+    "adm2_en": "Panchagarh",
+    "adm1_pcode": "BD55",
+    "adm2_pcode": "BD5577",
+    "objectid": 50
+  },
+  {
+    "x": 90.398998,
+    "y": 22.190856,
+    "wkid": 4326,
+    "adm1_en": "Barisal",
+    "adm2_en": "Patuakhali",
+    "adm1_pcode": "BD10",
+    "adm2_pcode": "BD1078",
+    "objectid": 51
+  },
+  {
+    "x": 89.99318,
+    "y": 22.533793,
+    "wkid": 4326,
+    "adm1_en": "Barisal",
+    "adm2_en": "Pirojpur",
+    "adm1_pcode": "BD10",
+    "adm2_pcode": "BD1079",
+    "objectid": 52
+  },
+  {
+    "x": 89.561527,
+    "y": 23.727655,
+    "wkid": 4326,
+    "adm1_en": "Dhaka",
+    "adm2_en": "Rajbari",
+    "adm1_pcode": "BD30",
+    "adm2_pcode": "BD3082",
+    "objectid": 53
+  },
+  {
+    "x": 88.65144,
+    "y": 24.46574,
+    "wkid": 4326,
+    "adm1_en": "Rajshahi",
+    "adm2_en": "Rajshahi",
+    "adm1_pcode": "BD50",
+    "adm2_pcode": "BD5081",
+    "objectid": 54
+  },
+  {
+    "x": 92.279557,
+    "y": 22.829979,
+    "wkid": 4326,
+    "adm1_en": "Chittagong",
+    "adm2_en": "Rangamati",
+    "adm1_pcode": "BD20",
+    "adm2_pcode": "BD2084",
+    "objectid": 55
+  },
+  {
+    "x": 89.236813,
+    "y": 25.649758,
+    "wkid": 4326,
+    "adm1_en": "Rangpur",
+    "adm2_en": "Rangpur",
+    "adm1_pcode": "BD55",
+    "adm2_pcode": "BD5585",
+    "objectid": 56
+  },
+  {
+    "x": 89.739564,
+    "y": 22.36978,
+    "wkid": 4326,
+    "adm1_en": "Khulna",
+    "adm2_en": "Bagerhat",
+    "adm1_pcode": "BD40",
+    "adm2_pcode": "BD4001",
+    "objectid": 1
+  },
+  {
+    "x": 89.838879,
+    "y": 23.478942,
+    "wkid": 4326,
+    "adm1_en": "Dhaka",
+    "adm2_en": "Faridpur",
+    "adm1_pcode": "BD30",
+    "adm2_pcode": "BD3029",
+    "objectid": 15
+  },
+  {
+    "x": 89.694703,
+    "y": 25.792093,
+    "wkid": 4326,
+    "adm1_en": "Rangpur",
+    "adm2_en": "Kurigram",
+    "adm1_pcode": "BD55",
+    "adm2_pcode": "BD5549",
+    "objectid": 29
+  },
+  {
+    "x": 90.773232,
+    "y": 24.002291,
+    "wkid": 4326,
+    "adm1_en": "Dhaka",
+    "adm2_en": "Narsingdi",
+    "adm1_pcode": "BD30",
+    "adm2_pcode": "BD3068",
+    "objectid": 43
+  },
+  {
+    "x": 89.136691,
+    "y": 22.382241,
+    "wkid": 4326,
+    "adm1_en": "Khulna",
+    "adm2_en": "Satkhira",
+    "adm1_pcode": "BD40",
+    "adm2_pcode": "BD4087",
+    "objectid": 57
+  },
+  {
+    "x": 90.408377,
+    "y": 23.247365,
+    "wkid": 4326,
+    "adm1_en": "Dhaka",
+    "adm2_en": "Shariatpur",
+    "adm1_pcode": "BD30",
+    "adm2_pcode": "BD3086",
+    "objectid": 58
+  },
+  {
+    "x": 90.074478,
+    "y": 25.082267,
+    "wkid": 4326,
+    "adm1_en": "Mymensingh",
+    "adm2_en": "Sherpur",
+    "adm1_pcode": "BD45",
+    "adm2_pcode": "BD4589",
+    "objectid": 59
+  },
+  {
+    "x": 89.59968,
+    "y": 24.39163,
+    "wkid": 4326,
+    "adm1_en": "Rajshahi",
+    "adm2_en": "Sirajganj",
+    "adm1_pcode": "BD50",
+    "adm2_pcode": "BD5088",
+    "objectid": 60
+  },
+  {
+    "x": 91.346045,
+    "y": 24.938567,
+    "wkid": 4326,
+    "adm1_en": "Sylhet",
+    "adm2_en": "Sunamganj",
+    "adm1_pcode": "BD60",
+    "adm2_pcode": "BD6090",
+    "objectid": 61
+  },
+  {
+    "x": 91.987334,
+    "y": 24.919218,
+    "wkid": 4326,
+    "adm1_en": "Sylhet",
+    "adm2_en": "Sylhet",
+    "adm1_pcode": "BD60",
+    "adm2_pcode": "BD6091",
+    "objectid": 62
+  },
+  {
+    "x": 89.998606,
+    "y": 24.356304,
+    "wkid": 4326,
+    "adm1_en": "Dhaka",
+    "adm2_en": "Tangail",
+    "adm1_pcode": "BD30",
+    "adm2_pcode": "BD3093",
+    "objectid": 63
+  },
+  {
+    "x": 88.345569,
+    "y": 25.99056,
+    "wkid": 4326,
+    "adm1_en": "Rangpur",
+    "adm2_en": "Thakurgaon",
+    "adm1_pcode": "BD55",
+    "adm2_pcode": "BD5594",
+    "objectid": 64
+  }
+]

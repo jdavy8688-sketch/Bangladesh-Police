@@ -1,0 +1,479 @@
+/* —— Map stage: KPI on top —— */
+.map-stage {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+}
+
+.map-stage-body {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  min-width: 0;
+}
+
+.map-pane-wrap {
+  position: absolute;
+  inset: 0;
+  min-width: 0;
+  min-height: 0;
+}
+
+.map-pane-wrap .map-host {
+  position: absolute;
+  inset: 0;
+}
+
+/* Full-width KPI bar — ArcGIS Dashboard style */
+.map-kpi-bar {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 8px 10px;
+  background: #ffffff;
+  border-bottom: 1px solid rgb(0 0 0 / 0.1);
+  z-index: 5;
+}
+
+.map-kpi-scroll {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+/* Base card — soft shade + left accent + elevation */
+.map-kpi-card {
+  min-width: 0;
+  max-width: none;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 12px 10px 14px;
+  background: #ffffff;
+  border: 1px solid rgb(0 0 0 / 0.08);
+  border-left: 3px solid #0079c1;
+  border-radius: 4px;
+  box-shadow:
+    0 1px 2px rgb(0 0 0 / 0.06),
+    0 2px 8px rgb(0 0 0 / 0.06);
+  transition: box-shadow 0.15s ease;
+}
+
+.map-kpi-card:hover {
+  box-shadow:
+    0 2px 4px rgb(0 0 0 / 0.08),
+    0 4px 12px rgb(0 0 0 / 0.08);
+}
+
+.map-kpi-card-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+  min-width: 0;
+}
+
+/* Default icon (blue) — overridden by tone modifiers */
+.map-kpi-card-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 4px;
+  background: #dceef8;
+  color: #0079c1;
+  flex-shrink: 0;
+}
+
+/* Tone shades — card fill + left border + icon (Esri palette) */
+.map-kpi-card--red {
+  background: #fdf6f4;
+  border-color: rgb(199 70 26 / 0.18);
+  border-left-color: #c7461a;
+}
+
+.map-kpi-card--red .map-kpi-card-icon {
+  background: #f8e4de;
+  color: #c7461a;
+}
+
+.map-kpi-card--red .map-kpi-card-value {
+  color: #9e3614;
+}
+
+.map-kpi-card--green {
+  background: #f4faf5;
+  border-color: rgb(53 172 70 / 0.2);
+  border-left-color: #35ac46;
+}
+
+.map-kpi-card--green .map-kpi-card-icon {
+  background: #dff0e2;
+  color: #2a8a38;
+}
+
+.map-kpi-card--green .map-kpi-card-value {
+  color: #1f6b2a;
+}
+
+.map-kpi-card--blue {
+  background: #f3f8fc;
+  border-color: rgb(0 121 193 / 0.18);
+  border-left-color: #0079c1;
+}
+
+.map-kpi-card--blue .map-kpi-card-icon {
+  background: #d6eaf6;
+  color: #0079c1;
+}
+
+.map-kpi-card--blue .map-kpi-card-value {
+  color: #005e95;
+}
+
+.map-kpi-card--yellow {
+  background: #fdfaf0;
+  border-color: rgb(209 154 0 / 0.22);
+  border-left-color: #d19a00;
+}
+
+.map-kpi-card--yellow .map-kpi-card-icon {
+  background: #f7eccc;
+  color: #b88600;
+}
+
+.map-kpi-card--yellow .map-kpi-card-value {
+  color: #8a6a00;
+}
+
+.map-kpi-card-label {
+  margin: 0;
+  font-size: clamp(11px, 1.1vw, 12px);
+  font-weight: 600;
+  color: #323232;
+  line-height: 1.25;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+}
+
+.map-kpi-card-value {
+  display: block;
+  font-size: clamp(16px, 1.8vw, 22px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #151515;
+  line-height: 1.15;
+}
+
+.map-kpi-card-insight {
+  margin: 4px 0 0;
+  font-size: clamp(10px, 1vw, 11px);
+  color: #6a6a6a;
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+@media (max-width: 1400px) {
+  .map-kpi-scroll {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .map-kpi-scroll {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .map-kpi-card-insight {
+    -webkit-line-clamp: 2;
+  }
+}
+
+@media (max-width: 560px) {
+  .map-kpi-scroll {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* —— Indicator Analytics modal —— */
+.analytics-modal-root {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  box-sizing: border-box;
+}
+
+.analytics-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  background: rgb(0 0 0 / 0.55);
+  cursor: pointer;
+}
+
+.analytics-modal {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  width: min(1480px, 98vw);
+  height: min(920px, 96vh);
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 16px 48px rgb(0 0 0 / 0.28);
+  overflow: hidden;
+}
+
+.analytics-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-shrink: 0;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgb(0 0 0 / 0.1);
+  background: #f0f4f8;
+}
+
+.analytics-modal-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(420px, 1.25fr) minmax(320px, 1fr);
+  gap: 0;
+}
+
+.analytics-modal-left {
+  min-width: 0;
+  min-height: 0;
+  overflow: auto;
+  padding: 14px 16px;
+  border-right: 1px solid rgb(0 0 0 / 0.1);
+  background: #fff;
+}
+
+.analytics-modal-left .chart-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: stretch;
+}
+
+.analytics-modal-left .chart-row-pies {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  align-items: stretch;
+}
+
+.analytics-modal-left .chart-row-bars {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 12px;
+  align-items: stretch;
+}
+
+.analytics-modal-left .chart-row-trends {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  align-items: stretch;
+}
+
+.analytics-modal-left .chart-card-wide {
+  grid-column: 1 / -1;
+}
+
+.analytics-modal-left .chart-body.trend-body {
+  display: block !important;
+  width: 100% !important;
+  min-width: 0;
+  flex-direction: column;
+}
+
+.analytics-modal-left .chart-body.trend-body > .recharts-responsive-container {
+  flex: none !important;
+  width: 100% !important;
+  max-width: none !important;
+  min-width: 0 !important;
+  height: 220px !important;
+}
+
+.analytics-modal-left .chart-card {
+  min-width: 0;
+  width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* Pie + legend: compact, no large empty gap */
+.analytics-modal-left .chart-body:not(.bar-body):not(.trend-body) {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  width: 100%;
+}
+
+.analytics-modal-left .chart-body:not(.bar-body):not(.trend-body) > .recharts-responsive-container {
+  flex: 0 0 120px;
+  width: 120px !important;
+  max-width: 120px;
+  min-width: 100px;
+}
+
+.analytics-modal-left .chart-body:not(.bar-body):not(.trend-body) .swatch-list {
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 100%;
+  width: auto;
+}
+
+/* Label + value stay adjacent (no stretched 1fr gap) */
+.analytics-modal-left .swatch-list li {
+  display: grid;
+  grid-template-columns: 10px auto auto;
+  gap: 6px;
+  align-items: start;
+  font-size: 10px;
+  line-height: 1.25;
+  min-width: 0;
+}
+
+.analytics-modal-left .swatch-list li > span:nth-child(2) {
+  max-width: 7.5em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.analytics-modal-left .swatch-list li > strong {
+  justify-self: start;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.analytics-modal-left .chart-body.bar-body {
+  width: 100%;
+  display: block;
+}
+
+.analytics-modal-left .chart-body.bar-body .recharts-responsive-container {
+  width: 100% !important;
+}
+
+.analytics-modal-right {
+  min-width: 0;
+  min-height: 0;
+  position: relative;
+  background: #e8ecf0;
+}
+
+.analytics-map-preview {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.analytics-map-preview-host {
+  flex: 1 1 auto;
+  min-height: 0;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.analytics-map-preview-host .esri-view,
+.analytics-map-preview-host .esri-view-root {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+@media (max-width: 900px) {
+  .analytics-modal-body {
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(0, 1fr) minmax(180px, 32%);
+  }
+
+  .analytics-modal-left {
+    border-right: 0;
+    border-bottom: 1px solid rgb(0 0 0 / 0.1);
+  }
+
+  .analytics-modal-left .chart-row-pies,
+  .analytics-modal-left .chart-row-bars {
+    grid-template-columns: 1fr;
+  }
+}
+
+.right-panel-actions {
+  flex-shrink: 0;
+  padding: 12px 16px;
+  border-top: 1px solid var(--color-border, rgb(0 0 0 / 0.1));
+  background: var(--color-surface);
+}
+
+.left-panel-footer {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 12px 16px;
+  border-top: 1px solid var(--color-border, rgb(0 0 0 / 0.1));
+  background: var(--color-surface);
+}
+
+.mobile-fabs {
+  display: none;
+}
+
+@media (max-width: 1100px) {
+  .mobile-fabs {
+    display: flex;
+    position: absolute;
+    left: 12px;
+    bottom: 12px;
+    z-index: 15;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .workbench[data-left="open"] .mobile-fabs,
+  .workbench[data-right="open"] .mobile-fabs {
+    display: none;
+  }
+}
+
+/* Ranking column dropdowns — left-aligned for all three */
+.ranking-col-label select {
+  text-align: left !important;
+  text-align-last: left !important;
+  direction: ltr !important;
+}
+.ranking-col-label select option,
+.ranking-col-label select optgroup {
+  text-align: left !important;
+  direction: ltr !important;
+}

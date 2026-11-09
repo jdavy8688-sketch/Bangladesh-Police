@@ -1,0 +1,335 @@
+/* —— Smart symbology legends (boundary / chart) —— */
+
+.legend-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.legend-block {
+  padding-bottom: 4px;
+}
+
+.legend-empty {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 8px 0;
+  color: #6a6a6a;
+  font-size: 12px;
+}
+
+.legend-empty calcite-icon {
+  flex-shrink: 0;
+  color: #0079c1;
+  margin-top: 2px;
+}
+
+.legend-kicker {
+  margin: 0 0 8px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #6a6a6a;
+}
+
+.bivar-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.bivar-plot {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.bivar-ylab {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-size: 12px;
+  font-weight: 600;
+  color: #323232;
+  white-space: nowrap;
+  max-height: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bivar-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.bivar-end {
+  font-size: 11px;
+  color: #6a6a6a;
+  line-height: 1;
+}
+
+.bivar-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 28px);
+  grid-template-rows: repeat(3, 28px);
+  gap: 3px;
+}
+
+.bivar-grid > span {
+  display: block;
+  width: 28px;
+  height: 28px;
+  border-radius: 2px;
+  border: 1px solid rgb(0 0 0 / 0.1);
+  box-sizing: border-box;
+}
+
+.bivar-x {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 8px;
+  margin-left: 32px;
+  max-width: 180px;
+  font-size: 11px;
+  color: #6a6a6a;
+}
+
+.bivar-xlab {
+  text-align: center;
+  font-weight: 600;
+  color: #323232;
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ternary-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 180px;
+}
+
+.ternary-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.ternary-svg {
+  width: 112px;
+  height: 112px;
+  display: block;
+}
+
+.ternary-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: #323232;
+  line-height: 1.2;
+  max-width: 88px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ternary-label-top {
+  text-align: center;
+  max-width: 120px;
+}
+
+.ternary-base {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 140px;
+  gap: 8px;
+}
+
+.ternary-label-left {
+  text-align: left;
+}
+
+.ternary-label-right {
+  text-align: right;
+  margin-left: auto;
+}
+
+.ternary-swatches {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ternary-swatches li {
+  display: grid;
+  grid-template-columns: 12px 1fr;
+  gap: 8px;
+  align-items: center;
+  font-size: 12px;
+  color: #555;
+}
+
+/* Selected indicator fields as keyword tags (Smart Symbology) */
+.selected-fields-box {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 10px 0 12px;
+  padding: 8px 10px;
+  min-height: 40px;
+  border: 1px solid var(--color-border-strong, rgb(0 0 0 / 0.18));
+  border-radius: var(--radius-sm, 4px);
+  background: #f8fafc;
+}
+
+.field-keyword {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  max-width: 100%;
+  margin: 0;
+  padding: 4px 8px 4px 10px;
+  border: 1px solid color-mix(in oklab, var(--color-accent, #0079c1) 35%, transparent);
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--color-accent, #0079c1) 10%, #ffffff);
+  color: var(--color-accent, #0079c1);
+  font: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.2;
+  cursor: pointer;
+}
+
+.field-keyword:hover {
+  background: color-mix(in oklab, var(--color-accent, #0079c1) 18%, #ffffff);
+  border-color: var(--color-accent, #0079c1);
+}
+
+.field-keyword span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.field-keyword calcite-icon {
+  flex-shrink: 0;
+  color: inherit;
+  opacity: 0.75;
+}
+
+.field-keyword:hover calcite-icon {
+  opacity: 1;
+}
+
+/* Analytics modal header filters */
+.analytics-modal-header {
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.analytics-modal-header .header-filters-wrap {
+  flex: 1 1 auto;
+  min-width: 0;
+  justify-content: flex-end;
+}
+
+.analytics-modal-tools {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.analytics-clear-sel {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 10px;
+  border: 1px solid var(--color-border-strong, rgb(0 0 0 / 0.18));
+  border-radius: var(--radius-sm, 4px);
+  background: #ffffff;
+  color: var(--color-fg, #151515);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.analytics-clear-sel:hover {
+  border-color: var(--color-accent, #0079c1);
+  color: var(--color-accent, #0079c1);
+}
+
+/* Bivariate numeric class table */
+.bivar-ranges {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 6px;
+  font-size: 11px;
+  color: #4a4a4a;
+}
+
+.bivar-ranges th,
+.bivar-ranges td {
+  padding: 4px 6px;
+  text-align: left;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  vertical-align: top;
+}
+
+.bivar-ranges th {
+  font-weight: 600;
+  color: #6a6a6a;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.bivar-ranges td:first-child,
+.bivar-ranges th:first-child {
+  font-weight: 600;
+  color: #323232;
+  white-space: nowrap;
+}
+
+.bivar-ranges tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Ternary corner % labels */
+.ternary-pct {
+  display: block;
+  font-size: 9px;
+  font-weight: 500;
+  color: #6a6a6a;
+  margin-top: 1px;
+}
+
+.ternary-swatch-pct {
+  color: #6a6a6a;
+  font-weight: 400;
+}
+
+.ternary-hint {
+  margin: 4px 0 0;
+  font-size: 10px;
+  color: #6a6a6a;
+  line-height: 1.35;
+}
+
+.ternary-swatches .swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  display: block;
+}

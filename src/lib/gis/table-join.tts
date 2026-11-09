@@ -1,0 +1,623 @@
+/**
+ * Hosted table access + join helpers.
+ *
+ * Indicator values live on hosted tables (Division / District / Upazila / Union /
+ * Crime_Data). Geometry layers provide polygons and admin names; this module
+ * loads table rows (cached) and merges them onto layer features by join keys.
+ *
+ * Crime_Data is aggregated by Unit / Custom_Unit_Code. When year/month filters
+ * are set, only matching rows are summed; otherwise all periods are aggregated.
+ * Join to geometry prefers Custom_Unit_Code (names differ: DMP vs Dhaka City Corp).
+ */
+
+import {
+  ADMIN_LEVELS,
+  CRIME_TABLE,
+  type AdminLevel,
+  type AdminLevelId,
+  type CrimeFilters,
+} from "@/config/layers";
+import { toFieldInfoFromEsri, type FieldInfo } from "@/lib/gis/fields";
+import type { EsriFeature, EsriLayer } from "@/lib/gis/map-controller";
+
+type TableCacheEntry = {
+  rows: Array<Record<string, unknown>>;
+  fields: FieldInfo[];
+  loadedAt: number;
+};
+
+const tableCache = new Map<string, TableCacheEntry>();
+const CACHE_TTL_MS = 5 * 60 * 1000;
+
+function attrGet(attrs: Record<string, unknown>, field: string): unknown {
+  if (field in attrs) return attrs[field];
+  const lower = field.toLowerCase();
+  for (const key of Object.keys(attrs)) {
+    if (key.toLowerCase() === lower) return attrs[key];
+  }
+  return undefined;
+}
+
+function normalizeKeyPart(value: unknown): string {
+  return String(value ?? "")
+    .trim()
+    .toLowerCase();
+}
+
+export function buildJoinKey(
+  attrs: Record<string, unknown>,
+  joinFields: string[],
+): string {
+  const parts: string[] = [];
+  for (const field of joinFields) {
+    const v = attrGet(attrs, field);
+    if (v == null || String(v).trim() === "") continue;
+    parts.push(`${field.toLowerCase()}=${normalizeKeyPart(v)}`);
+  }
+  return parts.join("|");
+}
+
+export function buildJoinKeyFallbacks(
+  attrs: Record<string, unknown>,
+  joinFields: string[],
+): string[] {
+  const keys: string[] = [];
+  const primary = buildJoinKey(attrs, joinFields);
+  if (primary) keys.push(primary);
+  for (const field of joinFields) {
+    const v = attrGet(attrs, field);
+    if (v == null || String(v).trim() === "") continue;
+    keys.push(`${field.toLowerCase()}=${normalizeKeyPart(v)}`);
+  }
+  return keys;
+}
+
+export type MapLike = {
+  findLayer: (title: string) => EsriLayer | null;
+  featureLayers: () => EsriLayer[];
+  queryAttributes: (
+    layer: EsriLayer,
+    options?: {
+      where?: string;
+      outFields?: string[];
+      orderByFields?: string[];
+      num?: number;
+      returnGeometry?: boolean;
+      returnDistinctValues?: boolean;
+      geometry?: unknown | null;
+    },
+  ) => Promise<EsriFeature[]>;
+};
+
+function normalizeTableTitle(title: string): string {
+  return title
+    .trim()
+    .toLowerCase()
+    .replace(/\.csv$/i, "")
+    .replace(/[\s_\-]+/g, "");
+}
+
+function matchTableLayer(map: MapLike, title: string): EsriLayer | null {
+  const wanted = title.trim().toLowerCase();
+  const wantedNorm = normalizeTableTitle(title);
+  const exact = map.findLayer(title);
+  if (exact) return exact;
+  const alt = wanted.endsWith(".csv") ? wanted.slice(0, -4) : `${wanted}.csv`;
+  const altHit = map.findLayer(alt);
+  if (altHit) return altHit;
+  for (const layer of map.featureLayers()) {
+    const t = (layer.title || "").trim().toLowerCase();
+    if (t === wanted || t === alt) return layer;
+    if (t === `${wanted} table` || t === `table ${wanted}`) return layer;
+    if (normalizeTableTitle(t) === wantedNorm) return layer;
+  }
+  return null;
+}
+
+export function findHostedTable(map: MapLike, title: string): EsriLayer | null {
+  return matchTableLayer(map, title);
+}
+
+export function findAdminTable(map: MapLike, levelId: AdminLevelId): EsriLayer | null {
+  const level = ADMIN_LEVELS.find((l) => l.id === levelId);
+  if (!level) return null;
+  return findHostedTable(map, level.tableTitle);
+}
+
+export function findCrimeTable(map: MapLike): EsriLayer | null {
+  return findHostedTable(map, CRIME_TABLE.title);
+}
+
+export async function loadTableRows(
+  map: MapLike,
+  table: EsriLayer,
+  force = false,
+): Promise<TableCacheEntry> {
+  const cacheKey = table.id || table.title || table.url || "table";
+  const cached = tableCache.get(cacheKey);
+  if (!force && cached && Date.now() - cached.loadedAt < CACHE_TTL_MS) {
+    return cached;
+  }
+
+  const features = await map.queryAttributes(table, {
+    where: "1=1",
+    outFields: ["*"],
+    returnGeometry: false,
+    num: 50_000,
+  });
+  const rows = features.map((f) => ({ ...(f.attributes ?? {}) }));
+  const fields = toFieldInfoFromEsri(table.fields ?? []);
+  const entry: TableCacheEntry = { rows, fields, loadedAt: Date.now() };
+  tableCache.set(cacheKey, entry);
+  return entry;
+}
+
+export function clearTableCache(): void {
+  tableCache.clear();
+}
+
+export function indexTableRows(
+  rows: Array<Record<string, unknown>>,
+  joinFields: string[],
+): Map<string, Record<string, unknown>> {
+  const index = new Map<string, Record<string, unknown>>();
+  for (const row of rows) {
+    for (const key of buildJoinKeyFallbacks(row, joinFields)) {
+      if (!key) continue;
+      if (!index.has(key)) index.set(key, row);
+    }
+  }
+  return index;
+}
+
+export function mergeRow(
+  layerAttrs: Record<string, unknown>,
+  tableIndex: Map<string, Record<string, unknown>>,
+  joinFields: string[],
+): Record<string, unknown> {
+  const merged = { ...layerAttrs };
+  for (const key of buildJoinKeyFallbacks(layerAttrs, joinFields)) {
+    const hit = tableIndex.get(key);
+    if (hit) {
+      return { ...merged, ...hit };
+    }
+  }
+  return merged;
+}
+
+function rowMatchesCrimeFilters(
+  row: Record<string, unknown>,
+  filters?: Partial<CrimeFilters> | null,
+  unitSet?: Set<string> | null,
+): boolean {
+  const unit = String(attrGet(row, "Unit") ?? "").trim();
+  const code = String(attrGet(row, "Custom_Unit_Code") ?? "").trim();
+  if (filters?.unit) {
+    const f = filters.unit.trim().toLowerCase();
+    if (unit.toLowerCase() !== f && code.toLowerCase() !== f) return false;
+  } else if (unitSet && unitSet.size) {
+    if (!unitSet.has(unit.toLowerCase()) && !(code && unitSet.has(code.toLowerCase()))) {
+      return false;
+    }
+  }
+  if (filters?.year) {
+    const y = String(attrGet(row, "year") ?? "").trim();
+    if (y !== String(filters.year).trim()) return false;
+  }
+  if (filters?.month) {
+    const m = String(attrGet(row, "month") ?? "").trim();
+    if (m.toLowerCase() !== String(filters.month).trim().toLowerCase()) return false;
+  }
+  return true;
+}
+
+export async function queryJoinedAttributes(options: {
+  map: MapLike;
+  level: AdminLevel;
+  layer: EsriLayer;
+  where?: string;
+  outFields?: string[];
+  orderByFields?: string[];
+  num?: number;
+  geometry?: unknown | null;
+  unitFilter?: string | null;
+}): Promise<Array<Record<string, unknown>>> {
+  const { map, level, layer, where, outFields, orderByFields, num, geometry, unitFilter } = options;
+  const table = findAdminTable(map, level.id);
+
+  const layerFeatures = await map.queryAttributes(layer, {
+    where: where || layer.definitionExpression || "1=1",
+    outFields: ["*"],
+    returnGeometry: false,
+    geometry,
+    num: num ?? 50_000,
+  });
+
+  if (!table) {
+    let rows = layerFeatures.map((f) => ({ ...(f.attributes ?? {}) }));
+    if (unitFilter) {
+      const u = unitFilter.trim().toLowerCase();
+      rows = rows.filter((r) => normalizeKeyPart(attrGet(r, "Unit")) === u);
+    }
+    return rows;
+  }
+
+  const { rows: tableRows } = await loadTableRows(map, table);
+  let sourceRows = tableRows;
+  if (unitFilter) {
+    const u = unitFilter.trim().toLowerCase();
+    sourceRows = tableRows.filter((r) => normalizeKeyPart(attrGet(r, "Unit")) === u);
+  }
+  const index = indexTableRows(sourceRows, level.tableJoinFields);
+  let merged = layerFeatures.map((f) =>
+    mergeRow(f.attributes ?? {}, index, level.tableJoinFields),
+  );
+  if (unitFilter) {
+    const u = unitFilter.trim().toLowerCase();
+    merged = merged.filter((r) => normalizeKeyPart(attrGet(r, "Unit")) === u);
+  }
+
+  if (orderByFields?.length) {
+    const spec = orderByFields[0]!;
+    const desc = /\sDESC$/i.test(spec);
+    const field = spec.replace(/\s+(ASC|DESC)$/i, "").trim();
+    merged = [...merged].sort((a, b) => {
+      const av = Number(attrGet(a, field));
+      const bv = Number(attrGet(b, field));
+      const an = Number.isFinite(av) ? av : 0;
+      const bn = Number.isFinite(bv) ? bv : 0;
+      return desc ? bn - an : an - bn;
+    });
+  }
+
+  if (typeof num === "number" && num > 0) {
+    merged = merged.slice(0, num);
+  }
+
+  if (outFields?.length && !outFields.includes("*")) {
+    const wanted = new Set(outFields.map((f) => f.toLowerCase()));
+    merged = merged.map((row) => {
+      const next: Record<string, unknown> = {};
+      for (const [k, v] of Object.entries(row)) {
+        if (wanted.has(k.toLowerCase())) next[k] = v;
+      }
+      return next;
+    });
+  }
+
+  return merged;
+}
+
+export async function sumJoinedFields(options: {
+  map: MapLike;
+  level: AdminLevel;
+  layer: EsriLayer;
+  fieldNames: string[];
+  where?: string;
+  geometry?: unknown | null;
+  unitFilter?: string | null;
+}): Promise<Record<string, number>> {
+  const rows = await queryJoinedAttributes({
+    map: options.map,
+    level: options.level,
+    layer: options.layer,
+    where: options.where,
+    geometry: options.geometry,
+    unitFilter: options.unitFilter,
+  });
+  const out: Record<string, number> = {};
+  for (const name of options.fieldNames) {
+    let total = 0;
+    for (const row of rows) {
+      const n = Number(attrGet(row, name));
+      if (Number.isFinite(n)) total += n;
+    }
+    out[name] = total;
+  }
+  return out;
+}
+
+export async function schemaForLevel(
+  map: MapLike,
+  level: AdminLevel,
+  layer: EsriLayer,
+): Promise<FieldInfo[]> {
+  const table = findAdminTable(map, level.id);
+  const layerFields = toFieldInfoFromEsri(layer.fields ?? []);
+  if (!table) return layerFields;
+  const { fields: tableFields } = await loadTableRows(map, table);
+  const byLower = new Map<string, FieldInfo>();
+  for (const f of layerFields) byLower.set(f.name.toLowerCase(), f);
+  for (const f of tableFields) {
+    if (!byLower.has(f.name.toLowerCase())) byLower.set(f.name.toLowerCase(), f);
+  }
+  return Array.from(byLower.values());
+}
+
+export async function loadCrimeFilterOptions(map: MapLike): Promise<{
+  units: string[];
+  years: string[];
+  months: string[];
+}> {
+  const table = findCrimeTable(map);
+  if (!table) return { units: [], years: [], months: [] };
+  const { rows } = await loadTableRows(map, table);
+  const units = new Set<string>();
+  const years = new Set<string>();
+  const months = new Set<string>();
+  for (const row of rows) {
+    const u = String(attrGet(row, "Unit") ?? "").trim();
+    const y = String(attrGet(row, "year") ?? "").trim();
+    const m = String(attrGet(row, "month") ?? "").trim();
+    if (u) units.add(u);
+    if (y) years.add(y);
+    if (m) months.add(m);
+  }
+  return {
+    units: [...units].sort((a, b) => a.localeCompare(b)),
+    years: [...years].sort((a, b) => Number(a) - Number(b) || a.localeCompare(b)),
+    months: [...months],
+  };
+}
+
+/** Admin Unit names for Unit filter, restricted by Division when set. */
+export async function loadCascadedUnitOptions(
+  map: MapLike,
+  division: string | null,
+): Promise<string[]> {
+  const table = findAdminTable(map, "division") ?? findAdminTable(map, "district");
+  if (!table) {
+    const crime = await loadCrimeFilterOptions(map);
+    return crime.units;
+  }
+  const { rows } = await loadTableRows(map, table);
+  const units = new Set<string>();
+  const divWanted = division ? division.trim().toLowerCase() : null;
+  for (const row of rows) {
+    if (divWanted) {
+      const d = String(attrGet(row, "adm1_en") ?? "").trim().toLowerCase();
+      if (d !== divWanted) continue;
+    }
+    const u = String(attrGet(row, "Unit") ?? "").trim();
+    if (u) units.add(u);
+  }
+  return [...units].sort((a, b) => a.localeCompare(b));
+}
+
+export async function queryCrimeAggregates(options: {
+  map: MapLike;
+  fieldNames: string[];
+  units?: string[] | null;
+  crimeFilters?: Partial<CrimeFilters> | null;
+}): Promise<{
+  totals: Record<string, number>;
+  byUnit: Array<Record<string, unknown>>;
+  fields: FieldInfo[];
+}> {
+  const table = findCrimeTable(options.map);
+  if (!table) {
+    return { totals: {}, byUnit: [], fields: [] };
+  }
+  const { rows, fields } = await loadTableRows(options.map, table);
+  const unitSet =
+    options.units?.length
+      ? new Set(options.units.map((u) => u.trim().toLowerCase()).filter(Boolean))
+      : null;
+
+  const byUnitMap = new Map<string, Record<string, unknown>>();
+  const totals: Record<string, number> = {};
+  for (const name of options.fieldNames) totals[name] = 0;
+
+  for (const row of rows) {
+    if (!rowMatchesCrimeFilters(row, options.crimeFilters, unitSet)) continue;
+
+    const unit = String(attrGet(row, "Unit") ?? "").trim();
+    const code = String(attrGet(row, "Custom_Unit_Code") ?? "").trim();
+    const key = (code || unit).toLowerCase() || "_";
+    let agg = byUnitMap.get(key);
+    if (!agg) {
+      agg = {
+        Unit: unit,
+        Custom_Unit_Code: code || attrGet(row, "Custom_Unit_Code"),
+      };
+      for (const name of options.fieldNames) agg[name] = 0;
+      byUnitMap.set(key, agg);
+    }
+    for (const name of options.fieldNames) {
+      const n = Number(attrGet(row, name));
+      if (!Number.isFinite(n)) continue;
+      agg[name] = Number(agg[name] ?? 0) + n;
+      totals[name] = (totals[name] ?? 0) + n;
+    }
+  }
+
+  return {
+    totals,
+    byUnit: Array.from(byUnitMap.values()),
+    fields,
+  };
+}
+
+/**
+ * Join Crime_Data aggregates onto geometry features.
+ * Matches primarily by Custom_Unit_Code, then by Unit name.
+ * Crime field values are coerced to numbers for symbology.
+ */
+export async function queryJoinedCrimeAttributes(options: {
+  map: MapLike;
+  level: AdminLevel;
+  layer: EsriLayer;
+  fieldNames: string[];
+  where?: string;
+  geometry?: unknown | null;
+  crimeFilters?: Partial<CrimeFilters> | null;
+  units?: string[] | null;
+  orderByFields?: string[];
+  num?: number;
+}): Promise<Array<Record<string, unknown>>> {
+  const crime = await queryCrimeAggregates({
+    map: options.map,
+    fieldNames: options.fieldNames,
+    units: options.units,
+    crimeFilters: options.crimeFilters,
+  });
+  const byCode = new Map<string, Record<string, unknown>>();
+  const byUnitName = new Map<string, Record<string, unknown>>();
+  for (const row of crime.byUnit) {
+    const code = String(row.Custom_Unit_Code ?? "").trim().toLowerCase();
+    const u = String(row.Unit ?? "").trim().toLowerCase();
+    if (code) byCode.set(code, row);
+    if (u) byUnitName.set(u, row);
+  }
+
+  // Map admin name (adm1_en / adm2_en / …) → units in that area (from hosted table).
+  // Division geometry has adm1_en only; Crime_Data is by Unit — roll up all units.
+  const unitsByAdminName = new Map<string, string[]>();
+  try {
+    const adminTable = findAdminTable(options.map, options.level.id);
+    if (adminTable) {
+      const { rows: adminRows } = await loadTableRows(options.map, adminTable);
+      for (const row of adminRows) {
+        const name = String(attrGet(row, options.level.nameField) ?? "").trim().toLowerCase();
+        const unit = String(attrGet(row, "Unit") ?? "").trim();
+        const code = String(attrGet(row, "Custom_Unit_Code") ?? "").trim();
+        if (!name) continue;
+        let list = unitsByAdminName.get(name);
+        if (!list) {
+          list = [];
+          unitsByAdminName.set(name, list);
+        }
+        if (unit) list.push(unit);
+        if (code) list.push(code);
+      }
+    }
+  } catch {
+    /* admin table optional */
+  }
+
+  const layerFeatures = await options.map.queryAttributes(options.layer, {
+    where: options.where || options.layer.definitionExpression || "1=1",
+    outFields: ["*"],
+    returnGeometry: false,
+    geometry: options.geometry,
+    num: 50_000,
+  });
+
+  let merged = layerFeatures.map((f) => {
+    const attrs = { ...(f.attributes ?? {}) };
+    const code = String(attrGet(attrs, "Custom_Unit_Code") ?? "").trim().toLowerCase();
+    const unit = String(attrGet(attrs, "Unit") ?? "").trim().toLowerCase();
+    const adminName = String(attrGet(attrs, options.level.nameField) ?? "").trim().toLowerCase();
+
+    let hit =
+      (code ? byCode.get(code) : undefined) ||
+      (unit ? byUnitName.get(unit) : undefined);
+
+    // Roll up crime for all Units under this admin polygon (Division / District / …).
+    if (!hit && adminName && unitsByAdminName.has(adminName)) {
+      const keys = unitsByAdminName.get(adminName) ?? [];
+      const sums: Record<string, number> = {};
+      for (const name of options.fieldNames) sums[name] = 0;
+      let any = false;
+      for (const k of keys) {
+        const nk = k.toLowerCase();
+        const row = byCode.get(nk) || byUnitName.get(nk);
+        if (!row) continue;
+        any = true;
+        for (const name of options.fieldNames) {
+          const n = Number(attrGet(row, name));
+          if (Number.isFinite(n)) sums[name] += n;
+        }
+      }
+      if (any) hit = sums;
+    }
+
+    const next = { ...attrs };
+    // Ensure name field is present for chart key matching
+    if (adminName && !attrGet(next, options.level.nameField)) {
+      next[options.level.nameField] = attrGet(attrs, options.level.nameField);
+    }
+    for (const name of options.fieldNames) {
+      if (hit) {
+        const n = Number(attrGet(hit, name));
+        next[name] = Number.isFinite(n) ? n : 0;
+      } else {
+        next[name] = 0;
+      }
+    }
+    return next;
+  });
+
+  // Deduplicate by admin name so chart join gets one row per unit
+  const byAdmin = new Map<string, Record<string, unknown>>();
+  for (const row of merged) {
+    const name = String(attrGet(row, options.level.nameField) ?? "").trim().toLowerCase();
+    if (!name) {
+      byAdmin.set(`_oid_${byAdmin.size}`, row);
+      continue;
+    }
+    const existing = byAdmin.get(name);
+    if (!existing) {
+      byAdmin.set(name, { ...row });
+      continue;
+    }
+    // Sum numeric crime fields if duplicates
+    for (const fname of options.fieldNames) {
+      const a = Number(attrGet(existing, fname)) || 0;
+      const b = Number(attrGet(row, fname)) || 0;
+      existing[fname] = a + b;
+    }
+  }
+  merged = Array.from(byAdmin.values());
+
+  if (options.crimeFilters?.unit) {
+    const u = options.crimeFilters.unit.trim().toLowerCase();
+    merged = merged.filter((r) => {
+      const unit = normalizeKeyPart(attrGet(r, "Unit"));
+      const code = normalizeKeyPart(attrGet(r, "Custom_Unit_Code"));
+      return unit === u || code === u;
+    });
+  }
+
+  if (options.orderByFields?.length) {
+    const spec = options.orderByFields[0]!;
+    const desc = /\sDESC$/i.test(spec);
+    const field = spec.replace(/\s+(ASC|DESC)$/i, "").trim();
+    merged = [...merged].sort((a, b) => {
+      const av = Number(attrGet(a, field));
+      const bv = Number(attrGet(b, field));
+      const an = Number.isFinite(av) ? av : 0;
+      const bn = Number.isFinite(bv) ? bv : 0;
+      return desc ? bn - an : an - bn;
+    });
+  }
+
+  if (typeof options.num === "number" && options.num > 0) {
+    merged = merged.slice(0, options.num);
+  }
+
+  return merged;
+}
+
+export async function unitsForLevelSelection(options: {
+  map: MapLike;
+  level: AdminLevel;
+  layer: EsriLayer;
+  where?: string;
+  geometry?: unknown | null;
+}): Promise<string[]> {
+  const rows = await queryJoinedAttributes({
+    map: options.map,
+    level: options.level,
+    layer: options.layer,
+    where: options.where,
+    geometry: options.geometry,
+    outFields: ["Unit", "Custom_Unit_Code", options.level.nameField],
+  });
+  const units = new Set<string>();
+  for (const row of rows) {
+    const u = String(attrGet(row, "Unit") ?? "").trim();
+    if (u) units.add(u);
+  }
+  return Array.from(units);
+}

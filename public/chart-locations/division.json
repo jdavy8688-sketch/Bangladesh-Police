@@ -1,0 +1,66 @@
+[
+  {
+    "x": 91.731769,
+    "y": 22.709658,
+    "wkid": 4326,
+    "adm1_en": "Chittagong",
+    "adm1_pcode": "BD20",
+    "objectid": 2
+  },
+  {
+    "x": 89.29252,
+    "y": 22.917755,
+    "wkid": 4326,
+    "adm1_en": "Khulna",
+    "adm1_pcode": "BD40",
+    "objectid": 4
+  },
+  {
+    "x": 90.38046,
+    "y": 24.846767,
+    "wkid": 4326,
+    "adm1_en": "Mymensingh",
+    "adm1_pcode": "BD45",
+    "objectid": 5
+  },
+  {
+    "x": 89.055836,
+    "y": 25.779405,
+    "wkid": 4326,
+    "adm1_en": "Rangpur",
+    "adm1_pcode": "BD55",
+    "objectid": 7
+  },
+  {
+    "x": 91.664065,
+    "y": 24.715456,
+    "wkid": 4326,
+    "adm1_en": "Sylhet",
+    "adm1_pcode": "BD60",
+    "objectid": 8
+  },
+  {
+    "x": 90.347194,
+    "y": 22.419147,
+    "wkid": 4326,
+    "adm1_en": "Barisal",
+    "adm1_pcode": "BD10",
+    "objectid": 1
+  },
+  {
+    "x": 90.241657,
+    "y": 23.839712,
+    "wkid": 4326,
+    "adm1_en": "Dhaka",
+    "adm1_pcode": "BD30",
+    "objectid": 3
+  },
+  {
+    "x": 89.04457,
+    "y": 24.588749,
+    "wkid": 4326,
+    "adm1_en": "Rajshahi",
+    "adm1_pcode": "BD50",
+    "objectid": 6
+  }
+]

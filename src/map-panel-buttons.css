@@ -1,0 +1,107 @@
+@import "./styles/layout-v2.css";
+
+/* Panel open buttons inside Esri view.ui (top-left / top-right stacks).
+   Visibility is controlled by inline style from MapController.setPanelToggleVisibility
+   (shown only when that side panel is closed). Do not set display:!important. */
+.map-stage .map-esri-panel-btn {
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.3);
+  background: #ffffff;
+  color: #6e6e6e;
+  border: 0;
+  cursor: pointer;
+  padding: 0;
+}
+
+.map-stage .map-esri-panel-btn:hover {
+  background: #f0f0f0;
+  color: #2b2b2b;
+}
+
+.map-stage .map-esri-panel-btn calcite-icon {
+  color: inherit;
+  pointer-events: none;
+}
+
+/* Indicator field settings (Scale for chart symbology) */
+.section-head-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.field-settings {
+  position: relative;
+}
+
+.field-settings-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--color-border-strong, rgb(0 0 0 / 0.18));
+  border-radius: 2px;
+  background: #ffffff;
+  color: #6a6a6a;
+  cursor: pointer;
+}
+
+.field-settings-btn:hover,
+.field-settings-btn.is-active {
+  border-color: var(--color-accent, #0079c1);
+  color: var(--color-accent, #0079c1);
+  background: color-mix(in oklab, var(--color-accent, #0079c1) 8%, #ffffff);
+}
+
+.field-settings-menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  z-index: 30;
+  min-width: 220px;
+  padding: 8px;
+  background: #ffffff;
+  border: 1px solid var(--color-border-strong, rgb(0 0 0 / 0.18));
+  border-radius: 4px;
+  box-shadow: 0 4px 16px rgb(0 0 0 / 0.12);
+}
+
+.field-settings-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 0;
+  font-size: 12px;
+  color: var(--color-fg, #151515);
+  cursor: pointer;
+}
+
+.field-settings-option input {
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.field-settings-option span {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.field-settings-option strong {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.field-settings-option small {
+  font-size: 11px;
+  color: var(--color-muted, #6a6a6a);
+  font-weight: 400;
+}
+
+.field-scale-hint {
+  margin: 6px 0 0;
+}
